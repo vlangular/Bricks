@@ -1,0 +1,9 @@
+<h5 ng-if="guess.tries != 1">It's your {{ guess.tries }} try</h5>
+<input id="yourName" type="text" placeholder="Your number" ng-model="guess.yourNumber"  ng-keydown="guess.preventBackspace()">
+<input type="button" value="Another try!" ng-click="guess.checkNumber()" ng-if="guess.yourNumber != ''" ng-hide="guess.yourNumber == guess.trueNumber">
+<div class="alert" ng-class="{ 'alert-info': guess.yourNumber == '', 'alert-danger': guess.yourNumber != '' && guess.yourNumber > guess.trueNumber, 'alert-warning': guess.yourNumber != '' && guess.yourNumber < guess.trueNumber, 'alert-success': guess.yourNumber == guess.trueNumber }">
+    <div ng-if="guess.yourNumber == ''">Insert your number</div>
+    <div ng-if="guess.yourNumber != '' && guess.yourNumber < guess.trueNumber">Add more</div>
+    <div ng-if="guess.yourNumber != '' && guess.yourNumber > guess.trueNumber">Take some</div>
+    <div ng-if="guess.yourNumber == guess.trueNumber">Congratulations! {{ guess.trueNumber }} is the correct number! You guessed it in {{ guess.tries}} tries</div>
+</div>

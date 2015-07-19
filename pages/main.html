@@ -1,0 +1,28 @@
+<h1>{{ main.title }}</h1>
+<p class="lead">{{ main.desc }}</p>
+
+<br />
+
+<input style="margin-bottom: 40px;" type="text" ng-model="main.name">
+
+<br />
+
+<form name="myForm">
+  <label>
+    Enter text:
+    <input type="text" ng-model="field" name="myField" required minlength="5" />
+  </label>
+  <div ng-messages="myForm.myField.$error" role="alert">
+    <div ng-message="required">You did not enter a field</div>
+    <div ng-message="minlength, maxlength">
+      Your email must be between 5 and 100 characters long
+    </div>
+  </div>
+</form>
+
+<br />
+
+<div style="margin-top: 40px;">
+    <input type="text" ng-model="main.handle">
+    <h1>Echo ~ {{ main.toLower(main.handle) }}</h1>
+</div>
