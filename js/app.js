@@ -1,25 +1,35 @@
-var appBricks = angular.module('appBricks',['ngRoute','ngMessages']);
+var appBricks = angular.module('appBricks',['ui.router','ngMessages']);
 
-appBricks.config(['$routeProvider',function($routeProvider) {
-    $routeProvider
-    .when('/',{
-        templateUrl: '/pages/main.html',
+// Routes
+appBricks.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider) {
+    $stateProvider.state('index',{
+        url: '',
+        templateUrl: 'pages/main.html',
         controller: 'mainController as main'
-    })
-    .when('/guess',{
-        templateUrl: '/pages/guess.html',
+    });
+    $stateProvider.state('guess',{
+        url: '/guess',
+        templateUrl: 'pages/guess.html',
         controller: 'guessController as guess'
-    })
-    .when('/about',{
-        templateUrl: '/pages/about.html',
+    });
+    $stateProvider.state('about',{
+        url: '/about',
+        templateUrl: 'pages/about.html',
         controller: 'aboutController as about'
-    })
-    .when('/about/:who',{
-        templateUrl: '/pages/about.html',
-        controller: 'aboutController as about'
-    })
+    });
+    // $stateProvider.state('about',{
+    //     url: 'about/:who',
+    //     templateUrl: '/pages/about.html',
+    //     controller: 'aboutController as about'
+    // })
+    $stateProvider.state('gallery',{
+        url: '/gallery',
+        templateUrl: 'pages/gallery.html',
+        controller: 'galleryController as gallery'
+    });
 }]);
 
+// Services
 appBricks.service('shareName', function() {
     var self = this;
 
@@ -29,7 +39,54 @@ appBricks.service('shareName', function() {
     };
 });
 
-appBricks.controller('mainController',['$scope','$filter','$log','shareName',function($scope,$filter,$log,shareName) {
+appBricks.service('getProp', function() {
+    var getProp = this;
+
+    getProp.insideProp = 'deep';
+});
+
+appBricks.service('getImages', function() {
+    var getImages = this;
+
+
+});
+
+// Filters
+appBricks.filter('drouble', function(Data) {
+    return function(number) {
+        return number*2 + ' is the drouble of ' + Data.number
+    }
+});
+
+// Factories
+appBricks.factory('Data', function() {
+    return {number: 53}
+});
+
+// Directives
+appBricks.directive('angry-block', function() {
+    return {
+        link: function(scope, element, attrs) {
+            element.on('mouseenter', function(e) {
+                element.addClass(attrs.angry-block);
+            })
+        }
+    }
+});
+appBricks.directive('calm-block', function() {
+    return {
+        link: function(scope, element, attrs) {
+            console.log('im out');
+            element.on('mouseleave', function(e) {
+                element.removeClass(attrs.angry-block);
+                element.addClass(attrs.calm-block);
+            })
+        }
+    }
+});
+
+// Controllers
+appBricks.controller('mainController',['$scope','$filter','$log','shareName','getProp','Data',function($scope,$filter,$log,shareName,getProp,Data) {
     var main = this;
 
     main.title = 'Bricks!';
@@ -51,6 +108,10 @@ appBricks.controller('mainController',['$scope','$filter','$log','shareName',fun
             shareName.name = main.name;
         }
     );
+
+    main.message = getProp.insideProp;
+
+    main.data = Data;
 
 }]);
 
@@ -81,13 +142,35 @@ appBricks.controller('guessController', function() {
     };
 });
 
-appBricks.controller('aboutController', ['$routeParams','shareName', function($routeParamas,shareName) {
-    var about = this;
+appBricks.controller('galleryController', function($scope) {
+    var gallery = this;
 
-    about.person = $routeParamas.who || 'nobody';
+    gallery.images = [];
+
+    var dir = "getImagesDir/";
+    var fileextension = ".jpg";
+    $.ajax({
+        //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+        url: dir,
+        success: function (data) {
+            //Lsit all png file names in the page
+            $(data).find("a:contains(" + fileextension + ")").each(function () {
+                var filename = this.href.replace(window.location, "").replace("http://", "");
+                // $("body").append($("<img src=" + dir + filename + "></img>"));
+                console.log(filename);
+                gallery.images.push(filename);
+            });
+        }
+    });
+});
+
+appBricks.controller('aboutController', ['shareName','getProp', function(shareName,getProp) {
+    var about = this;
 
     about.personYou = shareName.name;
     about.personYouAttr = shareName.nameAttr();
+
+    about.message = getProp.insideProp;
 
 }]);
 
@@ -96,9 +179,10 @@ appBricks.controller('headerController',function() {
 
     head.title = 'Bricks!';
     head.navigation = [
-        {name: 'Home', link:'#/'},
-        {name: 'Guess', link:'#/guess'},
-        {name: 'About', link:'#/about'},
-        {name: 'Contact', link:'#/contact'}
+        {name: 'Home', link:'index'},
+        {name: 'Guess', link:'guess'},
+        {name: 'Gallery', link:'gallery'},
+        {name: 'About', link:'about'},
+        {name: 'Contact', link:'contact'}
     ];
 });

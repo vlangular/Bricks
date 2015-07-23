@@ -20,3 +20,15 @@ body {
 ::selection {
    background: transparent;
 }*/
+
+.square {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+}
+.square.red {
+    background-color: #e74c3c;
+}
+.square.blue {
+    background-color: #3498db;
+}
