@@ -1,0 +1,6 @@
+<div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="{{ barPerson.value }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ barPerson.value }}%;">
+    {{ barPerson.name }} from {{ barPerson.city }} - {{ barCheckValue({ personToCheck: barPerson }) }}
+    </div>
+    <small ng-transclude></small>
+</div>

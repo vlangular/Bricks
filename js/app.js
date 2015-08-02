@@ -27,6 +27,11 @@ appBricks.config(['$stateProvider','$urlRouterProvider',function($stateProvider,
         templateUrl: 'pages/gallery.html',
         controller: 'galleryController as gallery'
     });
+    $stateProvider.state('bars',{
+        url: '/bars',
+        templateUrl: 'pages/bars.html',
+        controller: 'barsController as bars'
+    });
 }]);
 
 // Services
@@ -64,24 +69,38 @@ appBricks.factory('Data', function() {
 });
 
 // Directives
-appBricks.directive('angry-block', function() {
+appBricks.directive('angryBlock', function() {
     return {
         link: function(scope, element, attrs) {
-            element.on('mouseenter', function(e) {
-                element.addClass(attrs.angry-block);
+            element.on('mouseover', function() {
+                element.removeClass(attrs.calmBlock);
+                element.addClass(attrs.angryBlock);
+            });
+        }
+    }
+});
+appBricks.directive('calmBlock', function() {
+    return {
+        link: function(scope, element, attrs) {
+            element.on('mouseleave', function(e) {
+                element.removeClass(attrs.angryBlock);
+                element.addClass(attrs.calmBlock);
             })
         }
     }
 });
-appBricks.directive('calm-block', function() {
+
+appBricks.directive('barItem', function() {
     return {
-        link: function(scope, element, attrs) {
-            console.log('im out');
-            element.on('mouseleave', function(e) {
-                element.removeClass(attrs.angry-block);
-                element.addClass(attrs.calm-block);
-            })
-        }
+        restrict: 'E',
+        templateUrl: 'directives/bar-item.html',
+        replace: true,
+        scope: {
+            // barValue: '@',
+            barPerson: '=',
+            barCheckValue: '&'
+        },
+        transclude: true
     }
 });
 
@@ -182,7 +201,48 @@ appBricks.controller('headerController',function() {
         {name: 'Home', link:'index'},
         {name: 'Guess', link:'guess'},
         {name: 'Gallery', link:'gallery'},
+        {name: 'Bars', link:'bars'},
         {name: 'About', link:'about'},
         {name: 'Contact', link:'contact'}
     ];
 });
+
+appBricks.controller('barsController',['$scope', function($scope) {
+    var bars = this;
+
+    bars.title = 'Barstars';
+
+    bars.people = [
+        {
+            name: 'Vlad',
+            city: 'Bucharest',
+            value: '100'
+        },
+        {
+            name: 'John',
+            city: 'New York',
+            value: '50'
+        },
+        {
+            name: 'Jane',
+            city: 'San Francisco',
+            value: '75'
+        },
+        {
+            name: 'Tim',
+            city: 'Canada',
+            value: '25'
+        }
+    ];
+
+    bars.checkValue = function(person) {
+            if(person.value < 50) {
+                return 'Mission failed';
+            } else if(person.value > 50) {
+                return 'Congratulations';
+            } else {
+                return 'Please try again';
+            }
+    };
+
+}]);
