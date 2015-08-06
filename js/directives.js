@@ -77,3 +77,27 @@ appBricks.directive('jumModule2', function() {
         }
     }
 });
+
+// better way for jum module - use transclude
+appBricks.directive('jumElem', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'directives/jum-element2.html',
+        transclude: true,
+        replace: true,
+        scope: {
+            contactDesc: '='
+        }
+    }
+});
+
+appBricks.directive('jumModule', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'directives/jum-module.html',
+        replace: true,
+        scope: {
+            contactList: '='
+        }
+    }
+});

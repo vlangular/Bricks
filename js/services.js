@@ -19,3 +19,8 @@ appBricks.service('getImages', function() {
 
 
 });
+
+// Factories
+appBricks.factory('Data', function() {
+    return {number: 53}
+});

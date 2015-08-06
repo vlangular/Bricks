@@ -97,7 +97,8 @@ appBricks.controller('headerController',function() {
         {name: 'Gallery', link:'gallery'},
         {name: 'Bars', link:'bars'},
         {name: 'About', link:'about'},
-        {name: 'Contact', link:'contact'}
+        {name: 'Contact', link:'contact'},
+        {name: 'Contact2', link:'contact2'}
     ];
 });
 
@@ -171,5 +172,31 @@ appBricks.controller('contactController',['$scope',function($scope) {
             i=i+1;
         });
       },true);
+
+}]);
+
+appBricks.controller('contactController2',['$scope',function($scope) {
+
+    $scope.contactDesc = [
+        { title: 'Lorem1',
+          desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque ut quaerat soluta incidunt quas, iure quia voluptates'
+        },
+        { title: 'Lorem2',
+          desc: 'Lorem ipsum dolor sit amet'
+        },
+        { title: 'Lorem3',
+          desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque ut quaerat soluta incidunt quas, iure quia voluptates. Itaque ut quaerat soluta incidunt quas, iure quia voluptates'
+        },
+        { title: 'Lorem4',
+          desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        }
+    ];
+    $scope.contactList = [
+        ['Cras justo odio1', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros'],
+        ['Cras justo odio2', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros'],
+        ['Cras justo odio3', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros'],
+        ['Cras justo odio4', 'Dapibus ac facilisis in', 'Morbi leo risus', 'Porta ac consectetur ac', 'Vestibulum at eros']
+    ];
+
 
 }]);

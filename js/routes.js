@@ -33,6 +33,11 @@ appBricks.config(['$stateProvider','$urlRouterProvider',function($stateProvider,
     $stateProvider.state('contact',{
         url: '/contact',
         templateUrl: 'pages/contact.html',
-        controller: 'contactController as contact'
+        controller: 'contactController'
+    });
+    $stateProvider.state('contact2',{
+        url: '/contact2',
+        templateUrl: 'pages/contact2.html',
+        controller: 'contactController2'
     });
 }]);
